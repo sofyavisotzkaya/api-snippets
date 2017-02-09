@@ -1,56 +1,31 @@
-<?php
-    /* Send an SMS using Twilio. You can run this file 3 different ways:
-     *
-     * 1. Save it as sendnotifications.php and at the command line, run 
-     *         php sendnotifications.php
-     *
-     * 2. Upload it to a web host and load mywebhost.com/sendnotifications.php 
-     *    in a web browser.
-     *
-     * 3. Download a local server like WAMP, MAMP or XAMPP. Point the web root 
-     *    directory to the folder containing this file, and load 
-     *    localhost:8888/sendnotifications.php in a web browser.
-     */
-
-    // Step 1: Get the Twilio-PHP library from twilio.com/docs/libraries/php, 
-    // following the instructions to install it with Composer.
-    require_once "vendor/autoload.php";
-    use Twilio\Rest\Client;
-    
-    // Step 2: set our AccountSid and AuthToken from https://twilio.com/console
-    $AccountSid = "ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
-    $AuthToken = "your_auth_token";
-
-    // Step 3: instantiate a new Twilio Rest Client
-    $client = new Client($AccountSid, $AuthToken);
-
-    // Step 4: make an array of people we know, to send them a message. 
-    // Feel free to change/add your own phone number and name here.
-    $people = array(
-        "+15558675309" => "Curious George",
-        "+15558675308" => "Boots",
-        "+15558675307" => "Virgil"
+<?в PHP
+ 
+// ==== Контроль Варс =======
+$strFromNumber = "+79082462700";
+$strToNumber = "+19729759205";
+$strmsg отображается = "вы поймали Оливье обнаженки прошлой ночью? ОМГ да?"; //Оливье случайно подъехал порносайт на проектор 
+$aryResponse = массив();
+ 
+    // включать в twilio библиотеки PHP - Скачать с 
+    // на http://www.twilio.com/docs/libraries/
+    им require_once ("inc/Services/Twilio.php");
+ 
+    // устанавливаем наши идентификатору accountsid и AuthToken - от www.twilio.com/user/account
+    $Идентификатору accountsid = "ACb5644181f229a8e2d4f349b382e78e6c";
+    $AuthToken = "2b7348e8bff6e38b2c44f0ba95056a06";
+ 
+    // ини новый в twilio rest-клиенте
+    $objConnection = новый метод services_twilio($идентификатору accountsid, $AuthToken);
+    // Направить на новое outgoinging СМС, разместив на SMS ресурсов */
+    $bSuccess = $objConnection->учетная запись->sms_messages->создать(
+        
+        $strFromNumber, // количество мы отправляем из 
+        $strToNumber, // количество, мы посылаем к
+        $strmsg отображается			// текст SMS-сообщения
     );
-
-    // Step 5: Loop over all our friends. $number is a phone number above, and 
-    // $name is the name next to it
-    foreach ($people as $number => $name) {
-
-        $sms = $client->account->messages->create(
-
-            // the number we are sending to - Any phone number
-            $number,
-
-            array(
-                // Step 6: Change the 'From' number below to be a valid Twilio number 
-                // that you've purchased
-                'from' => "+15017250604", 
-                
-                // the sms body
-                'body' => "Hey $name, Monkey Party at 6PM. Bring Bananas!"
-            )
-        );
-
-        // Display a confirmation message on the screen
-        echo "Sent message to $name";
-    }
+		
+    $aryResponse["SentMsg"] = $strmsg отображается;
+    $aryResponse["успех"] = истина;
+    
+    
+    Эхо json_encode($aryResponse);
